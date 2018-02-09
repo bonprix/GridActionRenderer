@@ -17,30 +17,28 @@ package org.vaadin.anna.gridactionrenderer.client;
 
 import com.google.gwt.dom.client.Element;
 import com.vaadin.client.TooltipInfo;
-import com.vaadin.client.connectors.GridConnector;
+import com.vaadin.client.connectors.grid.GridConnector;
 import com.vaadin.shared.ui.Connect;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Grid;
 
 /**
- * There is no built-in tooltip support for custom rendered cells where only a
- * part of the cell gets a tooltip, and even less so when the contents require
- * several different tooltips, as is the case with action icons. This connector
- * overrides the default behaviour to makes that special tooltip handling
- * possible.
+ * There is no built-in tooltip support for custom rendered cells where only a part of the cell gets a tooltip, and even less so when the contents require
+ * several different tooltips, as is the case with action icons. This connector overrides the default behaviour to makes that special tooltip handling possible.
  */
 @Connect(Grid.class)
 public class ActionGridConnector extends GridConnector {
 
-	@Override
-	public TooltipInfo getTooltipInfo(Element element) {
-		if (element.hasAttribute(GridActionRendererConnector.TOOLTIP)) {
-			return new TooltipInfo(element.getAttribute(GridActionRendererConnector.TOOLTIP), null);
-		}
-		return super.getTooltipInfo(element);
-	}
+    @Override
+    public TooltipInfo getTooltipInfo(final Element element) {
+        if (element.hasAttribute(GridActionRendererConnector.TOOLTIP)) {
+            return new TooltipInfo(element.getAttribute(GridActionRendererConnector.TOOLTIP), ContentMode.HTML, null);
+        }
+        return super.getTooltipInfo(element);
+    }
 
-	@Override
-	public boolean hasTooltip() {
-		return true;
-	}
+    @Override
+    public boolean hasTooltip() {
+        return true;
+    }
 }

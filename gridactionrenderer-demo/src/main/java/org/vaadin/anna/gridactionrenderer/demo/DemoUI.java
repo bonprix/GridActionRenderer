@@ -17,13 +17,18 @@ import com.vaadin.ui.VerticalLayout;
 @SuppressWarnings("serial")
 public class DemoUI extends UI {
 
-    @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = DemoUI.class, widgetset = "org.vaadin.anna.gridactionrenderer.demo.DemoWidgetSet")
+    @WebServlet(
+        value = "/*",
+        asyncSupported = true)
+    @VaadinServletConfiguration(
+        productionMode = false,
+        ui = DemoUI.class,
+        widgetset = "org.vaadin.anna.gridactionrenderer.demo.DemoWidgetSet")
     public static class Servlet extends VaadinServlet {
     }
 
     @Override
-    protected void init(VaadinRequest request) {
+    protected void init(final VaadinRequest request) {
         final VerticalLayout layout = new VerticalLayout();
         layout.setSizeUndefined();
         layout.setMargin(true);
@@ -31,7 +36,6 @@ public class DemoUI extends UI {
         setContent(layout);
 
         layout.addComponent(new MyActionGrid());
-        layout.addComponent(new MyDownloadActionGrid());
     }
 
 }

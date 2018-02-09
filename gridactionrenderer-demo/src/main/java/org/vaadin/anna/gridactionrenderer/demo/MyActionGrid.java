@@ -6,45 +6,54 @@ import java.util.List;
 import org.vaadin.anna.gridactionrenderer.ActionGrid;
 import org.vaadin.anna.gridactionrenderer.GridAction;
 import org.vaadin.anna.gridactionrenderer.GridActionRenderer.GridActionClickEvent;
-import org.vaadin.anna.gridactionrenderer.GridDownloadAction;
 
-import com.vaadin.data.Item;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
-public class MyActionGrid extends ActionGrid {
+public class MyActionGrid extends ActionGrid<Pojo> {
 
     public MyActionGrid() {
-        super(createActions());
+        super(MyActionGrid.createActions(), new ListDataProvider<>(MyActionGrid.genPojos(10)));
 
         addStyleName("demogrid");
-        addColumn("name");
         setCaption("Action Grid");
 
-        Column column = addColumn("actions");
-        column.setRenderer(getGridActionRenderer());
+        addColumn(Pojo::getName).setCaption("Name")
+            .setId("name");
 
-        for (int i = 0; i < 25; ++i) {
-            Item item = getContainerDataSource().addItem(i);
-            item.getItemProperty("name").setValue("Item" + i);
-            item.getItemProperty("actions").setValue(i % 3 == 0 ? "1,2" : "-1");
+        addColumn(Pojo::getActions).setCaption("Actions")
+            .setId("actions")
+            .setRenderer(getGridActionRenderer());
+    }
+
+    private static List<Pojo> genPojos(final int quantity) {
+        final List<Pojo> result = new ArrayList<>();
+
+        for (long x = 1; x <= quantity; x++) {
+            final Pojo pojo = new Pojo();
+            pojo.setName("Item" + x);
+            pojo.setActions(x % 3 == 0 ? "1,2" : "-1");
+            result.add(pojo);
         }
+
+        return result;
     }
 
     private static List<GridAction> createActions() {
-        List<GridAction> actions = new ArrayList<GridAction>();
+        final List<GridAction> actions = new ArrayList<GridAction>();
         actions.add(new GridAction(FontAwesome.USER, "user"));
         actions.add(new GridAction(FontAwesome.GEAR, "settings"));
-        actions.add(new GridDownloadAction(FontAwesome.TICKET, "ticket"));
         return actions;
     }
 
     @Override
-    public void click(GridActionClickEvent event) {
-        Item item = getContainerDataSource().getItem(event.getItemId());
-        Notification.show(item.getItemProperty("name").getValue() + " - "
-                + event.getAction().getDescription(), Type.ERROR_MESSAGE);
+    public void click(final GridActionClickEvent<Pojo> event) {
+        Notification.show(event.getBean()
+            .getName() + " - "
+                + event.getAction()
+                    .getDescription(), Type.ERROR_MESSAGE);
     }
 
 }

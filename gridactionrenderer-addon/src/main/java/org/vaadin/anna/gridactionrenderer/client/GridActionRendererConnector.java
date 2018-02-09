@@ -18,8 +18,6 @@ package org.vaadin.anna.gridactionrenderer.client;
 import java.util.logging.Logger;
 
 import org.vaadin.anna.gridactionrenderer.client.GridActionRendererState.GridAction;
-import org.vaadin.gridfiledownloader.client.GridFileDownloaderConnector;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.vaadin.client.MouseEventDetailsBuilder;
 import com.vaadin.client.connectors.AbstractRendererConnector;
@@ -31,11 +29,9 @@ import com.vaadin.shared.ui.Connect;
  * Connector class for {@link GridActionRenderer}.
  */
 @Connect(org.vaadin.anna.gridactionrenderer.GridActionRenderer.class)
-public class GridActionRendererConnector extends
-        AbstractRendererConnector<String> {
+public class GridActionRendererConnector extends AbstractRendererConnector<String> {
 
-    private Logger logger = Logger.getLogger(GridActionRenderer.class
-            .getSimpleName());
+    private final Logger logger = Logger.getLogger(GridActionRenderer.class.getSimpleName());
 
     public static final String TOOLTIP = "grid-action-renderer-tooltip";
 
@@ -56,32 +52,14 @@ public class GridActionRendererConnector extends
 
     /**
      * Sends RPC call to the server-side about the clicked GridAction and row.
-     * If the clicked action was a download action, triggers a remote click to
-     * the given GridFileDownloader as well.
      *
-     * @param event
-     *            triggering click event
-     * @param gridAction
-     *            triggered action
-     * @param rowIndex
-     *            index of the row which the action belongs to
-     * @param columnIndex
-     *            index of the column which the action belongs to
+     * @param event triggering click event
+     * @param gridAction triggered action
+     * @param rowIndex index of the row which the action belongs to
+     * @param columnIndex index of the column which the action belongs to
      */
-    public void handleClick(ClickEvent event, GridAction gridAction,
-            int columnIndex, int rowIndex) {
-        MouseEventDetails mouseDetails = MouseEventDetailsBuilder
-                .buildMouseEventDetails(event.getNativeEvent());
-        getRpcProxy(GridActionClickRpc.class).click(rowIndex,
-                gridAction.actionKey, mouseDetails);
-
-        if (gridAction.download) {
-            if (getState().fileDownloader != null) {
-                ((GridFileDownloaderConnector) getState().fileDownloader)
-                        .remoteClick(columnIndex, rowIndex);
-            } else {
-                logger.severe("No file downloader set!");
-            }
-        }
+    public void handleClick(final ClickEvent event, final GridAction gridAction, final int columnIndex, final int rowIndex) {
+        final MouseEventDetails mouseDetails = MouseEventDetailsBuilder.buildMouseEventDetails(event.getNativeEvent());
+        getRpcProxy(GridActionClickRpc.class).click(rowIndex, gridAction.actionKey, mouseDetails);
     }
 }

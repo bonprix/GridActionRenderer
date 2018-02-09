@@ -18,25 +18,21 @@ package org.vaadin.anna.gridactionrenderer.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vaadin.shared.Connector;
-import com.vaadin.shared.communication.SharedState;
+import com.vaadin.shared.ui.grid.renderers.AbstractRendererState;
 
 /**
  * Shared state class for GridActionRenderer.
  */
-public class GridActionRendererState extends SharedState {
+public class GridActionRendererState extends AbstractRendererState {
 
     public List<GridActionRendererState.GridAction> gridActions = new ArrayList<GridActionRendererState.GridAction>();
-    public Connector fileDownloader;
 
     /**
-     * Shared state representation of
-     * org.vaadin.anna.gridactionrenderer.GridAction class.
+     * Shared state representation of org.vaadin.anna.gridactionrenderer.GridAction class.
      */
     public static class GridAction implements java.io.Serializable {
         public String actionKey;
         public String description;
-        public boolean download = false;
         public final List<String> styleNames = new ArrayList<String>();
     }
 }
