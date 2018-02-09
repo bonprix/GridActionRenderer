@@ -5,7 +5,7 @@
 	<groupId>org.vaadin.anna</groupId>
 	<artifactId>gridactionrenderer-demo</artifactId>
 	<packaging>war</packaging>
-	<version>2.-1.2-bp-SNAPSHOT</version>
+	<version>2.0-bp-SNAPSHOT</version>
 	<name>GridActionRenderer Add-on Demo</name>
 
 	<properties>
@@ -121,10 +121,10 @@
 			</plugin>
 
 			<plugin>
-		        <artifactId>maven-war-plugin</artifactId>
-		        <version>2.3</version>
-		        <configuration>
-		        	<packagingExcludes>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<packagingExcludes>
 						**/VAADIN/gwt-unitCache/**,
 						**/VAADIN/widgetsets/WEB-INF/**,
 						**/WEB-INF/classes/gwt-unitCache/**,
@@ -132,7 +132,7 @@
 						**/WEB-INF/classes/widgetsets/**
 					</packagingExcludes>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
-		        </configuration>
+				</configuration>
 			</plugin>
 
 			<plugin>
@@ -176,7 +176,7 @@
 			</plugin>
 
 		</plugins>
-	
+
 	</build>
 
 	<profiles>
@@ -186,7 +186,7 @@
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
-			
+
 			<repositories>
 				<repository>
 					<id>vaadin-prereleases</id>
